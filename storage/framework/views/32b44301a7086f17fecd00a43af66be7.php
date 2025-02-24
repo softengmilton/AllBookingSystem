@@ -1,0 +1,1 @@
+<?php echo $__env->make("Layout::app", \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH E:\Mytravel.2.4.2\resources\views/layouts/app.blade.php ENDPATH**/ ?>
