@@ -84,7 +84,8 @@ class VendorRoomController extends FrontendController
             'translation'=>new $this->roomTranslationClass(),
             'attributes'     => $this->attributesClass::where('service', 'hotel_room')->get(),
         ];
-        return view('Hotel::frontend.vendorHotel.room.index', $data);
+        
+        // return view('Hotel::frontend.vendorHotel.room.index', $data);
     }
 
     public function create($hotel_id)
@@ -123,6 +124,7 @@ class VendorRoomController extends FrontendController
             'page_title'         => __("Create Room"),
             'hotel'=>$this->currentHotel
         ];
+        // dd(view('Hotel::frontend.vendorHotel.room.detail')->getpath());
         return view('Hotel::frontend.vendorHotel.room.detail', $data);
     }
 
@@ -203,6 +205,8 @@ class VendorRoomController extends FrontendController
             'image_id',
             'gallery',
             'price',
+            'tax', 
+            'tax_type',
             'number',
             'beds',
             'size',

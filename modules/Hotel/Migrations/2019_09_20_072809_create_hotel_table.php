@@ -90,6 +90,8 @@ class CreateHotelTable extends Migration
 
             //Price
             $table->decimal('price', 12, 2)->nullable();
+            $table->text('tax')->nullable();
+            $table->text('tax_type')->nullable();
             $table->bigInteger('parent_id')->nullable();
 
             $table->smallInteger('number')->nullable();
