@@ -3,7 +3,7 @@
         <?php echo e($field['title'] ?? ""); ?>
 
     </span>
-    <div class="border-bottom border-width-2 border-color-1 mb-4 form-content">
+    <div class="border-bottom border-width-2 border-color-1  form-content">
         <div class="u-datepicker overflow-hidden input-group py-2 flex-nowrap form-date-search ">
             <div class="input-group-prepend">
                 <span class="d-flex align-items-center mr-2 font-size-21">

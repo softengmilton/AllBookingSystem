@@ -1,5 +1,5 @@
 <div class="item">
-    <div class="dropdown-custom px-0 mb-4 form-select-guests">
+    <div class="dropdown-custom px-0 form-select-guests">
         <span class="d-block text-gray-1 text-left font-weight-normal">{{ $field['title'] ?? "" }}</span>
         <div class="flex-horizontal-center border-bottom-1  py-2 d-flex  dropdown-toggle" data-toggle="dropdown">
             <i class="flaticon-plus d-flex align-items-center mr-2 text-primary font-weight-semi-bold"></i>

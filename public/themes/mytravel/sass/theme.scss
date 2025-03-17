@@ -36822,13 +36822,27 @@ label.btn {
 .tab-nav-rounded .nav-link {
     padding: 0.5rem 1.5rem;
 }
+// <!--- Edited->
+// .tab-nav-rounded .nav-link.active .icon::before {
+//     border: 1px solid #297cbb;
+//     border-radius: 50%;
+//     padding: 14px;
+//     background-color: #297cbb;
+// }
+
 
 .tab-nav-rounded .nav-link.active .icon::before {
-    border: 1px solid #297cbb;
     border-radius: 50%;
-    padding: 14px;
-    background-color: #297cbb;
+    padding: 22px 0px;
+    width: 10px;
 }
+
+.tab-nav-rounded .nav-link.active .icon::before {
+    border-radius: 50% !important;
+    padding: 23px 0px !important;
+    width: 10px !important;
+}
+// <!--- Edited End->
 
 .tab-nav-rounded .nav-link.active .icon::after {
     content: '';
