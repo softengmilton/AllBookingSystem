@@ -210,4 +210,21 @@ class HotelRoom extends Bookable
             $metaSeoNew->save();
         }
     }
+
+    public function getDiscountedPrice()
+    {
+        $price = $this->price;
+
+        if ($this->tax && $this->tax_type) {
+            if ($this->tax_type === 'percentage') {
+                $discountAmount = $price * ($this->tax / 100);
+            } else {
+                $discountAmount = $this->tax;
+            }
+
+            $price += $discountAmount;
+        }
+
+        return max($price, 0); // Ensure the price is not negative
+    }
 }

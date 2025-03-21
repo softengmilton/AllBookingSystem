@@ -3,7 +3,7 @@
         {{__("Select Your Room")}}
     </h5>
     <div class="nav-enquiry" v-if="is_form_enquiry_and_book">
-        <div class="enquiry-item active" >
+        <div class="enquiry-item active">
             <span>{{ __("Book") }}</span>
         </div>
         <div class="enquiry-item" data-toggle="modal" data-target="#enquiry_form_modal">
@@ -17,7 +17,7 @@
                     <div class="form-group form-date-field form-date-search " @click="openStartDate" data-format="{{get_moment_date_format()}}">
                         <i class="fa fa-angle-down arrow"></i>
                         <input type="text" class="start_date" ref="start_date" style="height: 1px; visibility: hidden">
-                        <div class="date-wrapper form-content" >
+                        <div class="date-wrapper form-content">
                             <label class="form-label">{{__("Check In - Out")}}</label>
                             <div class="render check-in-render" v-html="start_date_html"></div>
                         </div>
@@ -29,27 +29,27 @@
                         <div class="form-content dropdown-toggle" data-toggle="dropdown">
                             <label class="form-label">{{__('Guests')}}</label>
                             <div class="render">
-                                <span class="adults" >
-                                    <span class="one" >@{{adults}}
+                                <span class="adults">
+                                    <span class="one">@{{adults}}
                                         <span v-if="adults < 2">{{__('Adult')}}</span>
                                         <span v-else>{{__('Adults')}}</span>
                                     </span>
                                 </span>
                                 -
-                                <span class="children" >
-                                    <span class="one" >@{{children}}
+                                <span class="children">
+                                    <span class="one">@{{children}}
                                         <span v-if="children < 2">{{__('Child')}}</span>
                                         <span v-else>{{__('Children')}}</span>
                                     </span>
                                 </span>
                             </div>
                         </div>
-                        <div class="dropdown-menu select-guests-dropdown" >
+                        <div class="dropdown-menu select-guests-dropdown">
                             <div class="dropdown-item-row">
                                 <div class="label">{{__('Adults')}}</div>
                                 <div class="val">
                                     <span class="btn-minus2" data-input="adults" @click="minusPersonType('adults')"><i class="icon ion-md-remove"></i></span>
-                                    <span class="count-display"><input type="number" v-model="adults" min="1"/></span>
+                                    <span class="count-display"><input type="number" v-model="adults" min="1" /></span>
                                     <span class="btn-add2" data-input="adults" @click="addPersonType('adults')"><i class="icon ion-ios-add"></i></span>
                                 </div>
                             </div>
@@ -57,7 +57,7 @@
                                 <div class="label">{{__('Children')}}</div>
                                 <div class="val">
                                     <span class="btn-minus2" data-input="children" @click="minusPersonType('children')"><i class="icon ion-md-remove"></i></span>
-                                    <span class="count-display"><input type="number" v-model="children" min="0"/></span>
+                                    <span class="count-display"><input type="number" v-model="children" min="0" /></span>
                                     <span class="btn-add2" data-input="children" @click="addPersonType('children')"><i class="icon ion-ios-add"></i></span>
                                 </div>
                             </div>
@@ -152,9 +152,13 @@
                             </div>
                             <div class="col-md-3" v-if="room.number">
                                 <div class="col-price clear">
+                                    <div class="text-center discount-price-box">
+                                        <span class="discount-price" v-html="room.discount_price_html"></span>
+                                    </div>
                                     <div class="text-center">
                                         <span class="price" v-html="room.price_html"></span>
                                     </div>
+
                                     <select v-if="room.number" v-model="room.number_selected" class="custom-select">
                                         <option value="0">0</option>
                                         <option v-for="i in (1,room.number)" :value="i">@{{i+' '+ (i > 1 ? i18n.rooms  : i18n.room)}} &nbsp;&nbsp; (@{{formatMoney(i*room.price)}})</option>
@@ -212,7 +216,7 @@
                             <div class="unit" v-if='type.unit == "percent"'>
                                 @{{ type.price }}%
                             </div>
-                            <div class="unit" v-else >
+                            <div class="unit" v-else>
                                 @{{ formatMoney(type.price) }}
                             </div>
                         </div>
@@ -236,7 +240,7 @@
                             @{{pay_now_price_html}}
                         </div>
                         <button type="button" class="btn btn-primary" @click="doSubmit($event)" :class="{'disabled':onSubmit}" name="submit">
-                            <span >{{__("Book Now")}}</span>
+                            <span>{{__("Book Now")}}</span>
                             <i v-show="onSubmit" class="fa fa-spinner fa-spin"></i>
                         </button>
                     </div>
@@ -250,6 +254,39 @@
         </div>
     </div>
 </div>
+
+<style>
+    .discount-price-box {
+        position: relative;
+        margin-bottom: 20px;
+
+    }
+
+    .discount-price-box .discount-price {
+        position: absolute;
+        top: 0;
+        right: 0;
+        color: red;
+        font-weight: bold;
+
+    }
+
+    .discount-price-box .discount-price::before {
+        content: "";
+
+
+    }
+
+    .discount-price-box .discount-price::after {
+        content: "";
+        position: absolute;
+        top: 8px;
+        right: 18px;
+        width: 119px;
+        height: 0;
+        border-bottom: 2px solid red;
+        transform: rotate(173deg);
+
+    }
+</style>
 @include("Booking::frontend.global.enquiry-form",['service_type'=>'hotel'])
-
-
