@@ -10,7 +10,7 @@
         <?php if (empty($hide_form_search)): ?>
             <div class="mb-lg-n1">
                 <div class="all d-flex justify-content-center z-index-100" style="z-index: 100; position: relative;">
-                    <ul class="nav tab-nav-rounded flex-nowrap pb-2 pb-md-4 tab-nav justify-content-center" role="tablist">
+                    <ul class="nav tab-nav-rounded flex-nowrap pb-2 pb-md-4 tab-nav justify-content-center" style="overflow-x: scroll; -webkit-overflow-scrolling: touch;" role="tablist">
                         <?php if (!empty($service_types)): ?>
                             <?php $number = 0; ?>
                             <?php $__currentLoopData = $service_types;
@@ -181,8 +181,29 @@
             padding-bottom: 0.5rem !important;
         }
     }
+
     .tab-content.hero-tab-pane {
-  width: 90%;
-  margin: auto;
-}
+        width: 90%;
+        margin: auto;
+    }
+
+    @media (min-width: 380px) {
+        .form.bravo_form.d-flex.flex-wrap.align-items-center.p-3.bg-white.shadow.rounded {
+            height: 365px !important;
+        }
+
+        .all {
+            margin-top: 85px !important;
+        }
+    }
+
+    @media (min-width: 1000px) {
+        .form.bravo_form.d-flex.flex-wrap.align-items-center.p-3.bg-white.shadow.rounded {
+            height: 150px !important;
+        }
+
+        .all {
+            margin-top: 85px !important;
+        }
+    }
 </style>

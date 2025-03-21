@@ -97,7 +97,7 @@
             </div>
             <div class="price">
                 <span class="onsale"><?php echo e($row->display_sale_price); ?></span>
-                <span class="text-price"><?php echo e($row->display_price); ?></span>
+                <span class="text-price"><?php echo e($row->display_price);?></span>
             </div>
         </div>
     </div>

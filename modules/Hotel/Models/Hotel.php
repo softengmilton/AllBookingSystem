@@ -1195,4 +1195,10 @@ class Hotel extends Bookable
 
         return $query;
     }
+
+    // I want to return low price of the room of the hotel
+    public function getLowPrice()
+    {
+        return $this->rooms->min('price');
+    }
 }

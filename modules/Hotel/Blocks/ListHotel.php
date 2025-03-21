@@ -1,4 +1,5 @@
 <?php
+
 namespace Modules\Hotel\Blocks;
 
 use Modules\Template\Blocks\BaseBlock;
@@ -28,14 +29,14 @@ class ListHotel extends BaseBlock
                     'type'      => 'input',
                     'inputType' => 'text',
                     'label'     => __('Title'),
-                    'adminLabel'=>true
+                    'adminLabel' => true
                 ],
                 [
                     'id'        => 'desc',
                     'type'      => 'input',
                     'inputType' => 'text',
                     'label'     => __('Desc'),
-                    'adminLabel'=>true
+                    'adminLabel' => true
                 ],
                 [
                     'id'        => 'number',
@@ -72,7 +73,7 @@ class ListHotel extends BaseBlock
                         'allowClear' => 'true',
                         'placeholder' => __('-- Select --')
                     ],
-                    'pre_selected'=>route('location.admin.getForSelect2',['pre_selected'=>1])
+                    'pre_selected' => route('location.admin.getForSelect2', ['pre_selected' => 1])
                 ],
                 [
                     'id'            => 'order',
@@ -103,15 +104,15 @@ class ListHotel extends BaseBlock
                             'name' => __("DESC")
                         ],
                     ],
-                    "selectOptions"=> [
+                    "selectOptions" => [
                         'hideNoneSelectedText' => "true"
                     ]
                 ],
                 [
-                    'type'=> "checkbox",
-                    'label'=>__("Only featured items?"),
-                    'id'=> "is_featured",
-                    'default'=>true
+                    'type' => "checkbox",
+                    'label' => __("Only featured items?"),
+                    'id' => "is_featured",
+                    'default' => true
                 ],
                 [
                     'id'           => 'custom_ids',
@@ -131,13 +132,18 @@ class ListHotel extends BaseBlock
                     ])
                 ],
             ],
-            'category'=>__("Service Hotel")
+            'category' => __("Service Hotel")
         ];
     }
 
     public function content($model = [])
     {
         $list = $this->query($model);
+
+        // Add lowest price to each hotel
+        foreach ($list as $hotel) {
+            $hotel->lowest_price = $hotel->rooms->first()->lowest_price ?? null;
+        }
         $data = [
             'rows'       => $list,
             'style_list' => $model['style'],
@@ -147,15 +153,17 @@ class ListHotel extends BaseBlock
         return view('Hotel::frontend.blocks.list-hotel.index', $data);
     }
 
-    public function contentAPI($model = []){
+    public function contentAPI($model = [])
+    {
         $rows = $this->query($model);
-        $model['data']= $rows->map(function($row){
+        $model['data'] = $rows->map(function ($row) {
             return $row->dataForApi();
         });
         return $model;
     }
 
-    public function query($model){
+    public function query($model)
+    {
         $hotelClass = $this->hotelClass->search($model);
         $limit = $model['number'] ?? 5;
         return $hotelClass->paginate($limit);

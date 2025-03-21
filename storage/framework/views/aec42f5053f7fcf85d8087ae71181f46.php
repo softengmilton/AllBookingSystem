@@ -99,7 +99,7 @@
                                                <?php echo e($row->display_sale_price); ?>
 
                                             </small>
-                                            <?php echo e($row->display_price); ?>
+                                            <?php echo e($row->getLowPrice() ? '$' . number_format($row->getLowPrice(), 2) : 'N/A'); ?>
 
                                             <span class="font-size-14"> / <?php echo e(__('night')); ?></span>
                                         </span>

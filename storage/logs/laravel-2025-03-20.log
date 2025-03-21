@@ -1,0 +1,4 @@
+[2025-03-20 09:19:37] production.ERROR: Maximum execution time of 30 seconds exceeded {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Maximum execution time of 30 seconds exceeded at E:\\Mytravel.2.4.2\\vendor\\symfony\\finder\\Iterator\\SortableIterator.php:21)
+[stacktrace]
+#0 {main}
+"} 
