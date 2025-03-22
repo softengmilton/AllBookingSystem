@@ -95,9 +95,9 @@
                                         <span class="font-size-14">{{ __("From") }}</span>
                                         <span class="font-size-24 text-gray-6 font-weight-bold ml-1">
                                             <small class="font-size-16 text-decoration-line-through text-danger">
-                                               {{ $row->display_sale_price }}
+                                               <!-- {{ $row->display_sale_price }} -->
                                             </small>
-                                            {{ $row->display_price }}
+                                            {{ $row->getPrice()?? '' }}
                                             <span class="font-size-14"> / {{__('night')}}</span>
                                         </span>
                                     </div>

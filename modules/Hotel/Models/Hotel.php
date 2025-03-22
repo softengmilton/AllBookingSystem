@@ -1204,4 +1204,12 @@ class Hotel extends Bookable
 
         return $query;
     }
+
+
+    public function getPrice()
+    {
+        //get lowest room price of the hotel
+        $price = $this->rooms()->where('status', 'publish')->min('price');
+        return $price;
+    }
 }
