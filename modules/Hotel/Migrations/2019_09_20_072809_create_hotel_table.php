@@ -30,6 +30,8 @@ class CreateHotelTable extends Migration
             $table->string('video', 255)->nullable();
             $table->text('policy')->nullable();
             $table->smallInteger('star_rate')->nullable();
+            //cancellation time
+            
             //Price
             $table->decimal('price', 12, 2)->nullable();
             $table->string('check_in_time', 255)->nullable();
@@ -48,7 +50,7 @@ class CreateHotelTable extends Migration
             //$table->text('discount_by_days')->nullable();
 
             $table->string('related_ids')->nullable();
-
+            $table->integer('cancellation_time')->nullable();
             //Extra Info
             $table->string('status', 50)->nullable();
             $table->bigInteger('create_user')->nullable();

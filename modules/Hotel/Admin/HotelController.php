@@ -236,7 +236,8 @@ class HotelController extends AdminController
             'enable_service_fee',
             'service_fee',
             'surrounding',
-            'related_ids'
+            'related_ids',
+            'cancellation_time',
         ];
         if($this->hasPermission('hotel_manage_others')){
             $dataKeys[] = 'author_id';

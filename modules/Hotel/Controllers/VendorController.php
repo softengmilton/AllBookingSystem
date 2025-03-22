@@ -178,7 +178,8 @@ class VendorController extends FrontendController
             'enable_service_fee',
             'service_fee',
             'surrounding',
-            'related_ids'
+            'related_ids',
+            'cancellation_time',
         ];
 
         $row->fillByAttr($dataKeys,$request->input());

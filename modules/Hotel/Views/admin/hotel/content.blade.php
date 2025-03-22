@@ -12,22 +12,22 @@
             </div>
         </div>
         @if(is_default_lang())
-            <div class="form-group">
-                <label class="control-label">{{__("Youtube Video")}}</label>
-                <input type="text" name="video" class="form-control" value="{{$row->video}}" placeholder="{{__("Youtube link video")}}">
-            </div>
+        <div class="form-group">
+            <label class="control-label">{{__("Youtube Video")}}</label>
+            <input type="text" name="video" class="form-control" value="{{$row->video}}" placeholder="{{__("Youtube link video")}}">
+        </div>
         @endif
         @if(is_default_lang())
-            <div class="form-group">
-                <label class="control-label">{{__("Banner Image")}}</label>
-                <div class="form-group-image">
-                    {!! \Modules\Media\Helpers\FileHelper::fieldUpload('banner_image_id',$row->banner_image_id) !!}
-                </div>
+        <div class="form-group">
+            <label class="control-label">{{__("Banner Image")}}</label>
+            <div class="form-group-image">
+                {!! \Modules\Media\Helpers\FileHelper::fieldUpload('banner_image_id',$row->banner_image_id) !!}
             </div>
-            <div class="form-group">
-                <label class="control-label">{{__("Gallery")}}</label>
-                {!! \Modules\Media\Helpers\FileHelper::fieldGalleryUpload('gallery',$row->gallery) !!}
-            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label">{{__("Gallery")}}</label>
+            {!! \Modules\Media\Helpers\FileHelper::fieldGalleryUpload('gallery',$row->gallery) !!}
+        </div>
         @endif
     </div>
 </div>
@@ -36,14 +36,22 @@
     <div class="panel-title"><strong>{{__("Hotel Policy")}}</strong></div>
     <div class="panel-body">
         @if(is_default_lang())
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>{{__("Hotel rating standard")}}</label>
-                        <input type="number" value="{{$row->star_rate}}" placeholder="{{__("Eg: 5")}}" name="star_rate" class="form-control">
-                    </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>{{__("Hotel rating standard")}}</label>
+                    <input type="number" value="{{$row->star_rate}}" placeholder="{{__("Eg: 5")}}" name="star_rate" class="form-control">
                 </div>
             </div>
+            <div class="col-md-6">
+                <!-- Add the cancellation time field here -->
+                <div class="form-group">
+                    <label class="control-label">{{__("Cancellation Time (in minutes)")}}</label>
+                    <input type="number" name="cancellation_time" class="form-control" value="{{$row->cancellation_time}}" min="0" placeholder="{{__("Enter cancellation time in minutes")}}">
+                </div>
+            </div>
+
+        </div>
         @endif
         <div class="form-group-item">
             <label class="control-label">{{__('Policy')}}</label>
@@ -56,22 +64,23 @@
             </div>
             <div class="g-items">
                 @if(!empty($translation->policy))
-                    @foreach($translation->policy as $key=>$item)
-                        <div class="item" data-number="{{$key}}">
-                            <div class="row">
-                                <div class="col-md-5">
-                                    <input type="text" name="policy[{{$key}}][title]" class="form-control" value="{{$item['title']}}" placeholder="{{__('Eg: What kind of foowear is most suitable ?')}}">
-                                </div>
-                                <div class="col-md-6">
-                                    <textarea name="policy[{{$key}}][content]" class="form-control" placeholder="...">{{$item['content']}}</textarea>
-                                </div>
-                                <div class="col-md-1">
-                                    <span class="btn btn-danger btn-sm btn-remove-item"><i class="fa fa-trash"></i></span>
-                                </div>
-                            </div>
+                @foreach($translation->policy as $key=>$item)
+                <div class="item" data-number="{{$key}}">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <input type="text" name="policy[{{$key}}][title]" class="form-control" value="{{$item['title']}}" placeholder="{{__('Eg: What kind of foowear is most suitable ?')}}">
                         </div>
-                    @endforeach
+                        <div class="col-md-6">
+                            <textarea name="policy[{{$key}}][content]" class="form-control" placeholder="...">{{$item['content']}}</textarea>
+                        </div>
+                        <div class="col-md-1">
+                            <span class="btn btn-danger btn-sm btn-remove-item"><i class="fa fa-trash"></i></span>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
                 @endif
+
             </div>
             <div class="text-right">
                 <span class="btn btn-info btn-sm btn-add-item"><i class="icon ion-ios-add-circle-outline"></i> {{__('Add item')}}</span>
@@ -91,8 +100,9 @@
                     </div>
                 </div>
             </div>
+
         </div>
 
-        <?php do_action(\Modules\Hotel\Hook::FORM_AFTER_POLICY,$row) ?>
+        <?php do_action(\Modules\Hotel\Hook::FORM_AFTER_POLICY, $row) ?>
     </div>
 </div>
