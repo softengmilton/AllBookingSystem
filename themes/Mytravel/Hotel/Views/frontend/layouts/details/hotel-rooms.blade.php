@@ -152,13 +152,12 @@
                             </div>
                             <div class="col-md-3" v-if="room.number">
                                 <div class="col-price clear">
-                                    <div class="text-center discount-price-box">
+                                    <div class="text-center discount-price-box" v-if="room.discount_price !== room.base_price">
                                         <span class="discount-price" v-html="room.discount_price_html"></span>
                                     </div>
                                     <div class="text-center">
                                         <span class="price" v-html="room.price_html"></span>
                                     </div>
-
                                     <select v-if="room.number" v-model="room.number_selected" class="custom-select">
                                         <option value="0">0</option>
                                         <option v-for="i in (1,room.number)" :value="i">@{{i+' '+ (i > 1 ? i18n.rooms  : i18n.room)}} &nbsp;&nbsp; (@{{formatMoney(i*room.price)}})</option>

@@ -852,17 +852,19 @@ class Hotel extends Bookable
                 }
                 $discountedPrice = $room->price;
                 $basePrice = $discountedPrice;
-                if ($room->discount && $room->discount_type) {
-                    if ($room->discount_type === 'percentage') {
-                        $basePrice = $discountedPrice / (1 - ($room->discount / 100)); // Reverse the percentage discount
+                if ($room->tax && $room->tax_type) {
+                    if ($room->tax_type === 'percentage') {
+                        $basePrice = $discountedPrice / (1 - ($room->tax / 100)); // Reverse the percentage discount
                     } else {
-                        $basePrice = $discountedPrice + $room->discount; // Reverse the fixed discount
+                        $basePrice = $discountedPrice + $room->tax; // Reverse the fixed discount
                     }
                 }
                 $res[] = [
                     'id'              => $room->id,
                     'title'           => $translation->title,
-                    'price'           => $room->tmp_price ?? 0,
+                    'price'                 => $room->tmp_price ?? 0,  // Raw price value
+                    'base_price'            => $room->price, // Base price
+                    'discount_price'        => $basePrice, // Discounted price
                     'size_html'       => $room->size ? size_unit_format($room->size) : '',
                     'beds_html'       => $room->beds ? 'x' . $room->beds : '',
                     'adults_html'     => $room->adults ? 'x' . $room->adults : '',
@@ -875,8 +877,8 @@ class Hotel extends Bookable
                     'gallery'         => $room->getGallery(),
                     'price_html'      => format_money($room->tmp_price) . '<span class="unit">/' . ($room->tmp_nights ? __(':count nights', ['count' => $room->tmp_nights]) : __(":count night", ['count' => $room->tmp_nights])) . '</span>',
                     'price_text'      => format_money($room->tmp_price) . '/' . ($room->tmp_nights ? __(':count nights', ['count' => $room->tmp_nights]) : __(":count night", ['count' => $room->tmp_nights])),
-                    // 'discount_price_html' => format_money($basePrice) . '<span class="unit">/' .
-                    //     ($room->tmp_nights ? __(':count nights', ['count' => $room->tmp_nights]) : __(":count night", ['count' => $room->tmp_nights])) . '</span>',
+                    'discount_price_html' => format_money($basePrice) . '<span class="unit">/' .
+                        ($room->tmp_nights ? __(':count nights', ['count' => $room->tmp_nights]) : __(":count night", ['count' => $room->tmp_nights])) . '</span>',
                     'terms'           => $terms,
                     'term_features'   => $term_features
                 ];
