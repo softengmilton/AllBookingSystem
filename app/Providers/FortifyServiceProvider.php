@@ -65,7 +65,13 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         Fortify::authenticateUsing(function (Request $request) {
-            $user = User::where('email', $request->email)->first();
+
+
+            $input = $request->email;
+            $field = filter_var($input, FILTER_VALIDATE_EMAIL) ? 'email' : 'phone';
+            // Query the user based on the field (email or phone)
+            $user = User::where($field, $input)->first();
+            // $user = User::where('email', $request->email)->first();
             if ($user && Hash::check($request->password, $user->password) and $user->status == "publish") {
                 return $user;
             }
