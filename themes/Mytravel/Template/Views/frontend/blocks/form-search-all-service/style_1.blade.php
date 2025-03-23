@@ -61,7 +61,8 @@
 
 <style>
     /* Prevent horizontal scroll */
-    html, body {
+    html,
+    body {
         overflow-x: hidden;
     }
 
@@ -91,9 +92,9 @@
     /* Responsive Tabs */
     .tablist-box {
         position: relative;
-        overflow-x: auto;
+        /* overflow-x: auto; */
         white-space: nowrap;
-        max-width: 100%;
+        /* max-width: 100%; */
         padding: 10px 0;
     }
 
@@ -166,11 +167,19 @@
     /* Responsive Card Body */
     .card-body {
         padding: 15px;
+        height: 150px;
+    }
+
+    @media (max-width: 480px) {
+        .card-body {
+            min-height: 310px;
+            padding: 10px;
+        }
     }
 
     @media (max-width: 768px) {
         .tablist-box {
-            overflow-x: auto;
+            /* overflow-x: auto; */
             width: 100%;
         }
 
@@ -202,6 +211,9 @@
 
         .hero-subtitle {
             font-size: 14px;
+        }
+        .card-body {
+            min-height: 315px;
         }
     }
 </style>
