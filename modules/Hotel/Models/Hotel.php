@@ -992,6 +992,10 @@ class Hotel extends Bookable
     public function search($request)
     {
         $model_hotel = parent::query()->select("bravo_hotels.*");
+
+        if (!empty($location_name = $request['location_name'] ?? "")) {
+            $model_hotel->where('bravo_hotels.title', 'LIKE', '%' . $location_name . '%')->where("bravo_hotels.status", "publish");
+        }
         $model_hotel->where("bravo_hotels.status", "publish");
         if (!empty($location_id = $request['location_id'] ?? "")) {
             $location = Location::query()->where('id', $location_id)->where("status", "publish")->first();
@@ -1004,9 +1008,6 @@ class Hotel extends Bookable
             }
         }
 
-        if (!empty($location_id = $request['location_id'] ?? "")) {
-            $model_hotel->where('bravo_hotels.title', 'LIKE', '%' . $location_id . '%');
-        }
 
 
         if (!empty($request['location_ids'])) {
@@ -1232,30 +1233,30 @@ class Hotel extends Bookable
         $minPrice = $this->rooms()
             ->where('status', 'publish')
             ->min('price');
-    
+
         // If no rooms are available, return a default price (e.g., 0)
         if (!$minPrice) {
             return 0;
         }
-    
+
         // Get the room with the minimum price
         $minPriceRoom = $this->rooms()
             ->where('status', 'publish')
             ->where('price', $minPrice)
             ->first();
-    
+
         // If no room is found, return the minimum price without discount
         if (!$minPriceRoom) {
             return $minPrice;
         }
-    
+
         // Get the base price from the room
         $basePrice = $minPriceRoom->price;
-    
+
         // Get discount and discount type from the room
         $discount = $minPriceRoom->tax ?? 0; // Assuming 'tax' is the discount field
         $discountType = $minPriceRoom->tax_type ?? 'fixed'; // Assuming 'tax_type' is the discount type field
-    
+
         // Apply discount logic
         if ($discountType == 'percentage') {
             // Add the discount percentage to the base price
@@ -1267,7 +1268,7 @@ class Hotel extends Bookable
             // If discount type is invalid, return the base price
             $price = $basePrice;
         }
-    
+
         // Return the final price
         return $price;
     }
