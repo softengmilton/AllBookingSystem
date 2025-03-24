@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Auth;
 use Modules\Booking\Models\Booking;
 use Modules\Booking\Models\Enquiry;
 use App\Helpers\ReCaptchaEngine;
+use Carbon\Carbon;
 
 class BookingController extends \App\Http\Controllers\Controller
 {
@@ -81,6 +82,8 @@ class BookingController extends \App\Http\Controllers\Controller
             'user'       => auth()->user(),
             'is_api'     => $is_api
         ];
+
+        // dd($data);
         return view('Booking::frontend/checkout', $data);
     }
 
@@ -153,6 +156,8 @@ class BookingController extends \App\Http\Controllers\Controller
          * @var $booking Booking
          * @var $user User
          */
+
+
         $res = $this->validateDoCheckout();
         if ($res !== true) return $res;
         $user = auth()->user();
@@ -264,6 +269,12 @@ class BookingController extends \App\Http\Controllers\Controller
         $booking->wallet_credit_used = floatval($credit);
         $booking->wallet_total_used = floatval($wallet_total_used);
         $booking->pay_now = floatval((int)$booking->deposit == null ? $booking->total : (int)$booking->deposit);
+        $cancellationHours = $request->input('cancellation_time', 0);
+
+        $booking->cancellation_time = ($cancellationHours > 0)
+            ? Carbon::now()->addHours($cancellationHours)->toDateTimeString()
+            : null;
+
 
         // If using credit
         if ($booking->wallet_total_used > 0) {
@@ -278,7 +289,6 @@ class BookingController extends \App\Http\Controllers\Controller
                     $booking->wallet_total_used = floatval($wallet_total_used);
                     $booking->wallet_credit_used = money_to_credit($wallet_total_used, true);
                 }
-
             }
 
             $booking->pay_now = max(0, $booking->pay_now - $wallet_total_used);
@@ -308,7 +318,6 @@ class BookingController extends \App\Http\Controllers\Controller
                 $transaction = $user->withdraw($booking->wallet_credit_used, [
                     'wallet_total_used' => $booking->wallet_total_used
                 ], $booking->id);
-
             } catch (\Exception $exception) {
                 return $this->sendError($exception->getMessage());
             }
@@ -316,7 +325,7 @@ class BookingController extends \App\Http\Controllers\Controller
         }
         $booking->save();
 
-//        event(new VendorLogPayment($booking));
+        //        event(new VendorLogPayment($booking));
 
         if (Auth::check()) {
             $user = auth()->user();
@@ -395,7 +404,7 @@ class BookingController extends \App\Http\Controllers\Controller
 
     protected function savePassengers(Booking $booking, Request $request)
     {
-        if ($booking->service && method_exists($booking->service, 'savePassengers') ) {
+        if ($booking->service && method_exists($booking->service, 'savePassengers')) {
             call_user_func([$booking->service, 'savePassengers'], $booking, $request);
             return;
         }
@@ -656,7 +665,7 @@ class BookingController extends \App\Http\Controllers\Controller
         event(new SetPaidAmountEvent($booking));
         if ($remain == 0) {
             $booking->status = $booking::PAID;
-//            $booking->sendStatusUpdatedEmails();
+            //            $booking->sendStatusUpdatedEmails();
             event(new BookingUpdatedEvent($booking));
         }
 

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+<!-- @extends('layouts.app')
 @push('css')
     <link href="{{ asset('dist/frontend/module/booking/css/checkout.css?_ver='.config('app.asset_version')) }}" rel="stylesheet">
 @endpush
@@ -118,4 +118,4 @@
             });
         })
     </script>
-@endpush
+@endpush -->

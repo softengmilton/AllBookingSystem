@@ -12,6 +12,8 @@ Route::group(['prefix'=>'user','middleware' => ['auth','verified']],function(){
     Route::get('/profile/change-password','PasswordController@changePassword')->name("user.change_password");
     Route::post('/profile/change-password','PasswordController@changePasswordUpdate')->name("user.change_password.update");
     Route::get('/booking-history','UserController@bookingHistory')->name("user.booking_history");
+    //cancel booking
+    Route::delete('/cancel-booking/{code}', 'UserController@cancelBooking')->name('user.cancel_booking');
 
 
     Route::post('/wishlist','UserWishListController@handleWishList')->name("user.wishList.handle");

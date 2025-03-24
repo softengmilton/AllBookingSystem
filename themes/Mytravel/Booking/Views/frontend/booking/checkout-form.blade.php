@@ -7,33 +7,33 @@
             </h5>
             <div class="row">
                 @if(is_enable_guest_checkout() && is_enable_registration())
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label for="confirmRegister">
-                                <input type="checkbox" name="confirmRegister" id="confirmRegister" value="1">
-                                {{__('Create a new account?')}}
-                            </label>
-                        </div>
+                <div class="col-12">
+                    <div class="form-group">
+                        <label for="confirmRegister">
+                            <input type="checkbox" name="confirmRegister" id="confirmRegister" value="1">
+                            {{__('Create a new account?')}}
+                        </label>
                     </div>
+                </div>
                 @endif
                 @if(is_enable_guest_checkout())
-                    <div class="col-12 d-none" id="confirmRegisterContent">
-                        <div class="row">
-                            <div class="col-sm-6" >
-                                <div class="form-group ">
-                                    <label class="form-label" >{{__("Password")}} <span class="required">*</span></label>
-                                    <input type="password" class="form-control" name="password" autocomplete="off" >
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group ">
-                                    <label class="form-label" >{{__('Password confirmation')}} <span class="required">*</span></label>
-                                    <input type="password" class="form-control" name="password_confirmation" autocomplete="off">
-                                </div>
+                <div class="col-12 d-none" id="confirmRegisterContent">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group ">
+                                <label class="form-label">{{__("Password")}} <span class="required">*</span></label>
+                                <input type="password" class="form-control" name="password" autocomplete="off">
                             </div>
                         </div>
-                        <hr>
+                        <div class="col-sm-6">
+                            <div class="form-group ">
+                                <label class="form-label">{{__('Password confirmation')}} <span class="required">*</span></label>
+                                <input type="password" class="form-control" name="password_confirmation" autocomplete="off">
+                            </div>
+                        </div>
                     </div>
+                    <hr>
+                </div>
                 @endif
                 <div class="col-sm-6 mb-4">
                     <label class="form-label">
@@ -53,6 +53,9 @@
                     </label>
                     <input type="email" placeholder="{{__("email@domain.com")}}" class="form-control" value="{{$user->email ?? ''}}" name="email">
                 </div>
+               
+                    <input type="text" placeholder="{{__("email@domain.com")}}" hidden  value="{{$service->cancellation_time ?? ''}}" name="cancellation_time">
+                
                 <div class="col-sm-6 mb-4">
                     <label class="form-label">
                         {{ __("Phone") }}
@@ -92,7 +95,7 @@
                     <select name="country" class="form-control">
                         <option value="">{{__('-- Select --')}}</option>
                         @foreach(get_country_lists() as $id=>$name)
-                            <option @if(($user->country ?? '') == $id) selected @endif value="{{$id}}">{{$name}}</option>
+                        <option @if(($user->country ?? '') == $id) selected @endif value="{{$id}}">{{$name}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -121,7 +124,7 @@
                 </div>
                 <div class="col-sm-12 mb-4">
                     @php
-                        $term_conditions = setting_item('booking_term_conditions');
+                    $term_conditions = setting_item('booking_term_conditions');
                     @endphp
                     <div class="mb-3">
                         <div class="custom-control custom-checkbox d-flex align-items-center text-muted">
@@ -134,9 +137,9 @@
                             </label>
                         </div>
                         @if(setting_item("booking_enable_recaptcha"))
-                            <div class="form-group">
-                                {{recaptcha_field('booking')}}
-                            </div>
+                        <div class="form-group">
+                            {{recaptcha_field('booking')}}
+                        </div>
                         @endif
                     </div>
                     <div class="html_before_actions"></div>

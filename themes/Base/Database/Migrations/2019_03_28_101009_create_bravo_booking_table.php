@@ -52,6 +52,7 @@ class CreateBravoBookingTable extends Migration
             $table->text('customer_notes')->nullable();
             $table->decimal('vendor_service_fee_amount')->nullable();
             $table->text('vendor_service_fee')->nullable();
+            $table->dateTime('cancellation_time')->nullable();
 
 //            $table->integer('vendor_commission_percent')->nullable();
 //            $table->integer('vendor_commission_amount')->nullable();

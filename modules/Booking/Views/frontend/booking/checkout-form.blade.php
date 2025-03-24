@@ -1,4 +1,4 @@
-<div class="form-checkout" id="form-checkout" >
+<!-- <div class="form-checkout" id="form-checkout" >
     <input type="hidden" name="code" value="{{$booking->code}}">
     <div class="form-section">
         <div class="row">
@@ -131,4 +131,4 @@
             <i class="fa fa-spin fa-spinner" v-show="onSubmit"></i>
         </button>
     </div>
-</div>
+</div> -->

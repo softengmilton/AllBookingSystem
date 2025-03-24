@@ -1,4 +1,5 @@
 <?php
+
 namespace Modules\User\Controllers;
 
 use Illuminate\Support\Facades\Log;
@@ -89,9 +90,10 @@ class UserController extends FrontendController
         return view('User::frontend.profile', $data);
     }
 
-    public function profileUpdate(Request $request){
-        if(is_demo_mode()){
-            return back()->with('error',"Demo mode: disabled");
+    public function profileUpdate(Request $request)
+    {
+        if (is_demo_mode()) {
+            return back()->with('error', "Demo mode: disabled");
         }
         $user = Auth::user();
         $messages = [
@@ -106,7 +108,7 @@ class UserController extends FrontendController
                 'max:255',
                 Rule::unique('users')->ignore($user->id)
             ],
-            'user_name'=> [
+            'user_name' => [
                 'required',
                 'max:255',
                 'min:4',
@@ -118,12 +120,12 @@ class UserController extends FrontendController
                 'required',
                 Rule::unique('users')->ignore($user->id)
             ],
-        ],$messages);
+        ], $messages);
         $input = $request->except('bio');
         $user->fill($input);
         $user->bio = clean($request->input('bio'));
         $user->birthday = date("Y-m-d", strtotime($user->birthday));
-        $user->user_name = Str::slug( $request->input('user_name') ,"_");
+        $user->user_name = Str::slug($request->input('user_name'), "_");
         $user->save();
         return redirect()->back()->with('success', __('Update successfully'));
     }
@@ -170,15 +172,16 @@ class UserController extends FrontendController
         }
     }
 
-    public function upgradeVendor(Request $request){
+    public function upgradeVendor(Request $request)
+    {
         $user = Auth::user();
-        $vendorRequest = VendorRequest::query()->where("user_id",$user->id)->where("status","pending")->first();
-        if(!empty($vendorRequest)){
+        $vendorRequest = VendorRequest::query()->where("user_id", $user->id)->where("status", "pending")->first();
+        if (!empty($vendorRequest)) {
             return redirect()->back()->with('warning', __("You have just done the become vendor request, please wait for the Admin's approved"));
         }
         // check vendor auto approved
         $vendorAutoApproved = setting_item('vendor_auto_approved');
-         $dataVendor['role_request'] = setting_item('vendor_role');
+        $dataVendor['role_request'] = setting_item('vendor_role');
         if ($vendorAutoApproved) {
             if ($dataVendor['role_request']) {
                 $user->assignRole($dataVendor['role_request']);
@@ -199,41 +202,61 @@ class UserController extends FrontendController
 
 
 
-    public function permanentlyDelete(Request $request){
-        if(is_demo_mode()){
-            return back()->with('error',"Demo mode: disabled");
+    public function permanentlyDelete(Request $request)
+    {
+        if (is_demo_mode()) {
+            return back()->with('error', "Demo mode: disabled");
         }
-        if(!empty(setting_item('user_enable_permanently_delete')))
-        {
+        if (!empty(setting_item('user_enable_permanently_delete'))) {
             $user = Auth::user();
             \DB::beginTransaction();
             try {
-                Service::where('author_id',$user->id)->delete();
-                Tour::where('author_id',$user->id)->delete();
-                Car::where('author_id',$user->id)->delete();
-                Space::where('author_id',$user->id)->delete();
-                Hotel::where('author_id',$user->id)->delete();
-                Event::where('author_id',$user->id)->delete();
-                Boat::where('author_id',$user->id)->delete();
-                Flight::where('author_id',$user->id)->delete();
+                Service::where('author_id', $user->id)->delete();
+                Tour::where('author_id', $user->id)->delete();
+                Car::where('author_id', $user->id)->delete();
+                Space::where('author_id', $user->id)->delete();
+                Hotel::where('author_id', $user->id)->delete();
+                Event::where('author_id', $user->id)->delete();
+                Boat::where('author_id', $user->id)->delete();
+                Flight::where('author_id', $user->id)->delete();
                 $user->sendEmailPermanentlyDelete();
                 $user->delete();
                 \DB::commit();
                 Auth::logout();
-                if(is_api()){
-                    return $this->sendSuccess([],'Deleted');
+                if (is_api()) {
+                    return $this->sendSuccess([], 'Deleted');
                 }
                 return redirect(route('home'));
-            }catch (\Exception $exception){
+            } catch (\Exception $exception) {
                 \DB::rollBack();
             }
         }
-        if(is_api()){
+        if (is_api()) {
             return $this->sendError('Error. You can\'t permanently delete');
         }
-        return back()->with('error',__('Error. You can\'t permanently delete'));
-
+        return back()->with('error', __('Error. You can\'t permanently delete'));
     }
+    public function cancelBooking($code)
+    {
+        // Find the booking
+        $booking = Booking::where('code', $code)->first();
 
+        if (!$booking) {
+            return redirect()->back()->with('error', __('Booking not found.'));
+        }
 
+        try {
+            // Check if soft deletes are enabled
+            // if (in_array('Illuminate\Database\Eloquent\SoftDeletes', class_uses($booking))) {
+            //     $booking->forceDelete(); // Force delete if soft deletes are enabled
+            // } else {
+            $booking->delete();
+            // }
+
+            return redirect('/')->with('success', __('Booking deleted successfully.'));
+        } catch (\Exception $e) {
+            Log::error('Error deleting booking: ' . $e->getMessage());
+            return redirect()->back()->with('error', __('Error deleting booking.'));
+        }
+    }
 }
