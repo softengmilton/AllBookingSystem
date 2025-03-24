@@ -46,8 +46,8 @@
             <div class="col-md-6">
                 <!-- Add the cancellation time field here -->
                 <div class="form-group">
-                    <label class="control-label">{{__("Cancellation Time (in minutes)")}}</label>
-                    <input type="number" name="cancellation_time" class="form-control" value="{{$row->cancellation_time}}" min="0" placeholder="{{__("Enter cancellation time in minutes")}}">
+                    <label class="control-label">{{__("Cancellation Time (in hours)")}}</label>
+                    <input type="number" name="cancellation_time" class="form-control" value="{{$row->cancellation_time}}" min="0" placeholder="{{__("Enter cancellation time in hours")}}">
                 </div>
             </div>
 
