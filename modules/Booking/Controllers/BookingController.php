@@ -22,6 +22,12 @@ use Modules\Booking\Models\Booking;
 use Modules\Booking\Models\Enquiry;
 use App\Helpers\ReCaptchaEngine;
 use Carbon\Carbon;
+use App\Mail\BookingGuestMail;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+
+
 
 class BookingController extends \App\Http\Controllers\Controller
 {
@@ -269,11 +275,42 @@ class BookingController extends \App\Http\Controllers\Controller
         $booking->wallet_credit_used = floatval($credit);
         $booking->wallet_total_used = floatval($wallet_total_used);
         $booking->pay_now = floatval((int)$booking->deposit == null ? $booking->total : (int)$booking->deposit);
+
+        $start_date = $request->input('start_date');
         $cancellationHours = $request->input('cancellation_time', 0);
 
-        $booking->cancellation_time = ($cancellationHours > 0)
-            ? Carbon::now()->addHours($cancellationHours)->toDateTimeString()
-            : null;
+        // Set cancellation deadline (48 hours before check-in)
+        $booking->cancellation_time = Carbon::parse($start_date)->subHours($cancellationHours);
+        $booking->save();
+
+
+        // If no authenticated user create new user from the given email and make  random pass word  and want to sent email and password to this given email
+
+        if (!auth()->check()) {
+            // dd('no authenticated user');
+            $user = User::where('email', $booking->email)->first();
+            if (!$user) {
+                $password = Str::random(10);
+                $user = User::create([
+                    'first_name'        => $booking->first_name,
+                    'last_name'         => $booking->last_name,
+                    'email'             => $booking->email,
+                    'password'          => bcrypt($password),
+                    'phone'             => '112 666 888',
+                    'status'            => 'publish',
+                    'city'            => 'New York',
+                    'country'            => 'US',
+                    'created_at'        => date("Y-m-d H:i:s"),
+                    'email_verified_at' => date("Y-m-d H:i:s"),
+                    'bio' => 'We\'re designers who have fallen in love with creating spaces for others to reflect, reset, and create. We split our time between two deserts (the Mojave, and the Sonoran). We love the way the heat sinks into our bones, the vibrant sunsets, and the wildlife we get to call our neighbors.',
+                    "need_update_pw" => !is_demo_mode() ? 1 : 0
+                ]);
+                $user->assignRole('customer');
+            }
+            // Mail::to($user->email)->send(new BookingGuestMail($booking, $user, $password));
+        }
+
+
 
 
         // If using credit
