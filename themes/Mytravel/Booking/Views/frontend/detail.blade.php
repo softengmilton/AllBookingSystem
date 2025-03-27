@@ -3,10 +3,11 @@
 <link href="{{ asset('dist/frontend/module/booking/css/checkout.css?_ver='.config('app.asset_version')) }}" rel="stylesheet">
 @endpush
 @section('content')
-<div class="bravo-booking-page padding-content ">
+<div class="bravo-booking-page padding-content">
     <div class="bg-gray space-2">
         <div class="container">
             <div class="row booking-success-notice">
+                <!-- Main Content Column -->
                 <div class="col-lg-8 col-xl-9">
                     <div class="mb-5 shadow-soft bg-white rounded-sm">
                         <div class="py-6 px-5 border-bottom">
@@ -16,7 +17,6 @@
                                 @case(\Modules\Booking\Models\Booking::PROCESSING)
                                 @case(\Modules\Booking\Models\Booking::CONFIRMED)
                                 @case(\Modules\Booking\Models\Booking::CONFIRMED)
-
                                 <div class="height-50 width-50 flex-shrink-0 flex-content-center bg-primary rounded-circle">
                                     <i class="flaticon-tick text-white font-size-24"></i>
                                 </div>
@@ -47,18 +47,14 @@
                                 @endswitch
                             </div>
                         </div>
+
                         @include ($service->booking_customer_info_file ?? 'Booking::frontend/booking/booking-customer-info')
+
                         <div class="text-right py-4 pr-4">
-                            @if($booking->cancellation_time && \Carbon\Carbon::parse($booking->cancellation_time)->isFuture())
-                            <span class="text-danger font-weight-bold">
-                                {{ __('You can cancel this booking before :time', ['time' => \Carbon\Carbon::parse($booking->cancellation_time)->diffForHumans(['parts' => 2])]) }}
-                            </span>
-                            @endif
                             <div class="d-flex align-items-center justify-content-end">
-
-
-                                @if(\Carbon\Carbon::parse($booking->cancellation_time)->timestamp > \Carbon\Carbon::now()->timestamp || $booking->cancellation_time == null)
-                                <form action="{{ route('user.cancel_booking', $booking->code) }}" method="POST" onsubmit="return confirm('Are you sure you want to cancel this booking?');">
+                                @if($booking->cancellation_time === null || (now()->gte($booking->cancellation_time) && now()->lte($booking->start_date)))
+                                <form action="{{ route('user.cancel_booking', $booking->code) }}" method="POST"
+                                    onsubmit="return confirm('{{ __('Are you sure you want to cancel this booking?') }}');">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-warning rounded-sm transition-3d-hover font-size-16 font-weight-bold py-3 me-2 my-2">
@@ -66,18 +62,17 @@
                                     </button>
                                 </form>
                                 @endif
-
-
-
-                                <a href="{{ route('user.booking_history') }}"
-                                    class="btn btn-primary rounded-sm transition-3d-hover font-size-16  my-2font-weight-bold py-3">
-                                    {{ __('Booking History') }}
-                                </a>
                             </div>
-                        </div>
 
+                            <a href="{{ route('user.booking_history') }}"
+                                class="btn btn-primary rounded-sm transition-3d-hover font-size-16 my-2 font-weight-bold py-3">
+                                {{ __('Booking History') }}
+                            </a>
+                        </div>
                     </div>
                 </div>
+
+                <!-- Sidebar Column -->
                 <div class="col-lg-4 col-xl-3">
                     @include ($service->checkout_booking_detail_file ?? '')
                 </div>

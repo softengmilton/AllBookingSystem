@@ -53,9 +53,11 @@
                     </label>
                     <input type="email" placeholder="{{__("email@domain.com")}}" class="form-control" value="{{$user->email ?? ''}}" name="email">
                 </div>
-               
-                    <input type="text" placeholder="{{__("email@domain.com")}}" hidden  value="{{$service->cancellation_time ?? ''}}" name="cancellation_time">
-                
+
+                <input type="text" placeholder="{{__("email@domain.com")}}" hidden value="{{$service->cancellation_time ?? ''}}" name="cancellation_time">
+                <input type="text" placeholder="{{__("email@domain.com")}}" hidden value="{{$service->start_date ?? ''}}" name="start_date">
+                <input type="text" placeholder="{{__("email@domain.com")}}" hidden value="{{$service->end_date ?? ''}}" name="end_date">
+
                 <div class="col-sm-6 mb-4">
                     <label class="form-label">
                         {{ __("Phone") }}

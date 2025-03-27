@@ -276,16 +276,17 @@ class BookingController extends \App\Http\Controllers\Controller
         $booking->wallet_total_used = floatval($wallet_total_used);
         $booking->pay_now = floatval((int)$booking->deposit == null ? $booking->total : (int)$booking->deposit);
 
-        $start_date = $request->input('start_date');
-        $cancellationHours = $request->input('cancellation_time', 0);
-
-        // Set cancellation deadline (48 hours before check-in)
-        $booking->cancellation_time = Carbon::parse($start_date)->subHours($cancellationHours);
         $booking->save();
+        $dateTime = $booking->start_date;
+        $cancellationTime = (int) $request->input('cancellation_time', 0); // Ensure it's an integer
 
-
-        // If no authenticated user create new user from the given email and make  random pass word  and want to sent email and password to this given email
-
+        if (!empty($dateTime) && $cancellationTime > 0) {
+            $exactDateTime = Carbon::parse($dateTime)->subHours($cancellationTime);
+            $booking->cancellation_time = $exactDateTime->toDateTimeString();
+        } else {
+            $booking->cancellation_time = null;
+        }
+        $booking->save();
         if (!auth()->check()) {
             // dd('no authenticated user');
             $user = User::where('email', $booking->email)->first();
@@ -308,11 +309,9 @@ class BookingController extends \App\Http\Controllers\Controller
                 $user->assignRole('customer');
             }
             // Mail::to($user->email)->send(new BookingGuestMail($booking, $user, $password));
+            $booking->customer_id = $user->id;
+            $booking->save();
         }
-
-
-
-
         // If using credit
         if ($booking->wallet_total_used > 0) {
             if ($how_to_pay == 'full') {

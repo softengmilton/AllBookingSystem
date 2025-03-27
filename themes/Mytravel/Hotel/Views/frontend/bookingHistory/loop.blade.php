@@ -43,7 +43,8 @@
         <a href="{{route('user.booking.invoice',['code'=>$booking->code])}}" class="btn btn-xs btn-primary btn-info-booking open-new-window mt-1" onclick="window.open(this.href); return false;">
             <i class="fa fa-print"></i>{{__("Invoice")}}
         </a>
-        @if(\Carbon\Carbon::parse($booking->cancellation_time)->timestamp > \Carbon\Carbon::now()->timestamp || $booking->cancellation_time == null)
+        @if($booking->cancellation_time === null ||
+        (now()->gte($booking->cancellation_time) && now()->lte($booking->start_date)))
 
         <form action="{{ route('user.cancel_booking', $booking->code) }}" method="POST" onsubmit="return confirm('Are you sure you want to cancel this booking?');">
             @csrf
