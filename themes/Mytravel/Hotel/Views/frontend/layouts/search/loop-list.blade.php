@@ -101,16 +101,18 @@ $translation = $row->translate();
                         </div>
                     </div>
                     @endif
-                    <div class="mb-0">
-                        <span class="mr-1 font-size-14 text-gray-1">{{__("from")}}</span>
-                        <!-- <span class="font-weight-bold">{{ $row->display_price }}</span> -->
+                    <div class="mb-0 pt-1 pb-2">
+                        <span class="font-size-14 text-gray-1 d-block">{{ __("Starts from") }}</span>
                         @if($row->getPrice() != $row->getBasePrice())
                         <div class="line-box">
-                            <span class="font-weight-bold line-through text-gray-1 font-size-14 line">{{ $row->getBasePrice() ?? '' }}</span>
+                            <span class="font-weight-bold line-through text-danger line font-size-16">BDT {{ number_format($row->getBasePrice()) }}</span>
                         </div>
                         @endif
-                        <span class="font-weight-bold">{{ $row->getPrice() ?? '' }}</span>
-                        <span class="font-size-14 text-gray-1"> / {{__('night')}}</span>
+                        <div class="font-weight-bold text-dark font-size-24">BDT {{ number_format($row->getPrice()) }}
+                            <span class="font-size-14 text-gray-1"> / {{__('night')}}</span>
+                        </div>
+                        <!-- <span class="font-size-14 text-gray-1"> / {{__('night')}}</span> -->
+                        <button class="btn btn-warning font-weight-bold mt-2 w-100 w-md-auto">Select</button>
                     </div>
                 </div>
             </div>
