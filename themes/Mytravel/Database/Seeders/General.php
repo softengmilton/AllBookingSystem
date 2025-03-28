@@ -150,12 +150,12 @@ class General extends Seeder
                 ],
                 [
                     'name'  => 'footer_text_left',
-                    'val'   => '© 2021 MyTravel. All rights reserved',
+                    'val'   => '© 2025 Booking Part. All rights reserved',
                     'group' => "general",
                 ],
                 [
                     'name'  => 'footer_text_right',
-                    'val'   => 'MyTravel',
+                    'val'   => 'Booking Part',
                     'group' => "general",
                 ],
                 [
