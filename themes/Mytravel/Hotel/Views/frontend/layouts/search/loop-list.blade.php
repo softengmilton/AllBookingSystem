@@ -112,7 +112,9 @@ $translation = $row->translate();
                             <span class="font-size-14 text-gray-1"> / {{__('night')}}</span>
                         </div>
                         <!-- <span class="font-size-14 text-gray-1"> / {{__('night')}}</span> -->
-                        <button class="btn btn-warning font-weight-bold mt-2 w-100 w-md-auto">Select</button>
+                        <a @if(!empty($blank)) target="_blank" @endif href="{{$row->getDetailUrl()}}" class="d-block">
+                            <button class="btn btn-warning font-weight-bold mt-2 w-100 w-md-auto">Select</button>
+                        </a>
                     </div>
                 </div>
             </div>

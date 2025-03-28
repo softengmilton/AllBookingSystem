@@ -48,4 +48,10 @@
     .g-field-search {
         max-width: 100% ! important;
     }
+
+    @media (max-width: 768px) {
+        #bravo_flight .card-body {
+            min-height: 395px !important;
+        }
+    }
 </style>

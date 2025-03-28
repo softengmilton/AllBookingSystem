@@ -35,3 +35,10 @@
         </button>
     </div>
 </form>
+<style>
+    @media (max-width: 768px) {
+   #bravo_event .card-body {
+    min-height: 230px;
+  }
+}
+</style>
