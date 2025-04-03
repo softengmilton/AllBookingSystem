@@ -34,7 +34,7 @@
     </div>
     <div class="g-button-submit align-self-lg-center">
         <button type="submit" class="btn  btn-md border-radius-3 mb-xl-0 mb-lg-1 transition-3d-hover">
-            <i class="flaticon-magnifying-glass font-size-20 mr-2"></i>{{ __("Search") }}
+            {{ __("Search") }}
         </button>
     </div>
 </form>
@@ -147,7 +147,8 @@
     .g-field-search .col-md-6 {
         flex: none !important;
         min-width: 0 !important;
-        padding: 0px  !important;;
+        padding: 0px !important;
+        ;
         border: 0 !important;
         border-radius: 0px !important;
         background: none !important;

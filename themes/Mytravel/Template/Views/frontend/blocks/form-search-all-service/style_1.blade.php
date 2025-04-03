@@ -79,6 +79,8 @@
         color: white;
     }
 
+
+
     @media (max-width: 768px) {
         .hero-title {
             font-size: 32px;
@@ -87,6 +89,20 @@
         .hero-subtitle {
             font-size: 16px;
         }
+    }
+
+    @media (min-width: 769px) {
+        .tablist-box .tab-nav {
+            /* overflow-x: auto; */
+            /* add scroll //
+             */
+            overflow-x: auto !important;
+            /* width: 95% !important; */
+        }
+    }
+
+    .card.border-0.tab-shadow {
+        border-radius: 20px !important;
     }
 
     /* Responsive Tabs */
@@ -181,6 +197,7 @@
         .tablist-box {
             /* overflow-x: auto; */
             width: 100%;
+            position: relative;
         }
 
         .tablist-box .tab-nav {
@@ -188,8 +205,12 @@
             justify-content: flex-start;
             overflow-x: auto;
             white-space: nowrap;
-            padding: 10px;
-            width: 100%;
+            padding: 9px;
+            width: 85%;
+            margin-top: 5px;
+            position: absolute;
+            top: -50px;
+            right: 8%;
         }
 
         .tab-nav .nav-item {
@@ -212,6 +233,7 @@
         .hero-subtitle {
             font-size: 14px;
         }
+
         .card-body {
             min-height: 315px;
         }
