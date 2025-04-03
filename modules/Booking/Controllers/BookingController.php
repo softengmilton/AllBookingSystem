@@ -308,7 +308,8 @@ class BookingController extends \App\Http\Controllers\Controller
                 ]);
                 $user->assignRole('customer');
             }
-            // Mail::to($user->email)->send(new BookingGuestMail($booking, $user, $password));
+            Mail::to($user->email)->send(new BookingGuestMail($booking, $user, $password));
+
             $booking->customer_id = $user->id;
             $booking->save();
         }

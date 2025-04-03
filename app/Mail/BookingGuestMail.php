@@ -25,6 +25,7 @@ class BookingGuestMail extends Mailable
         $this->booking = $booking;
         $this->user = $user;
         $this->password = $password;
+        // dd($this->booking);
     }
 
     /**
@@ -42,8 +43,9 @@ class BookingGuestMail extends Mailable
      */
     public function content(): Content
     {
+        // dd($this->booking);
         return new Content(
-            view: 'emails.booking_cancellation',
+            view: 'emails.bookingcancellation',
             with: [
                 'booking' => $this->booking,
                 'user' => $this->user,

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,3 +34,14 @@ Route::fallback([\Modules\Core\Controllers\FallbackController::class, 'FallBack'
 Route::get('/update', 'InstallerController@redirectToHome');
 Route::get('/update/overview', 'InstallerController@redirectToHome');
 Route::get('/update/database', 'InstallerController@redirectToHome');
+Route::get('/test-email', function() {
+    try {
+        Mail::raw('Test email content', function($message) {
+            $message->to('deymilton85@gmail.com')
+                   ->subject('Test Email');
+        });
+        return "Test email sent! Check your inbox.";
+    } catch (\Exception $e) {
+        return "Error: " . $e->getMessage();
+    }
+});

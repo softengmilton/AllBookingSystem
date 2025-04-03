@@ -116,8 +116,9 @@ class UserController extends Controller
             return redirect()->back()->with('error', __('Booking not found.'));
         }
 
-        // Delete the booking
-        $booking->delete();
+        // change the status of the booking to "cancelled"
+        $booking->status = 'cancelled';
+        // $booking->delete();
 
         return redirect()->route('user.booking_history')->with('success', __('Booking deleted successfully.'));
     }
