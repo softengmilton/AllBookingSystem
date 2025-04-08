@@ -253,12 +253,10 @@
         </div>
     </div>
 </div>
-
 <style>
     .discount-price-box {
         position: relative;
         margin-bottom: 20px;
-
     }
 
     .discount-price-box .discount-price {
@@ -267,13 +265,10 @@
         right: 0;
         color: red;
         font-weight: bold;
-
     }
 
     .discount-price-box .discount-price::before {
         content: "";
-
-
     }
 
     .discount-price-box .discount-price::after {
@@ -285,7 +280,33 @@
         height: 0;
         border-bottom: 2px solid red;
         transform: rotate(173deg);
+    }
 
+    /* // mobile  */
+    @media (max-width: 767px) {
+        .clear {
+            text-align: right ! important;
+        }
+
+        .discount-price-box .discount-price {
+            position: absolute;
+            top: -35px;
+            right: -120px;
+            color: red;
+            font-weight: bold;
+        }
+
+        .discount-price-box .discount-price::after {
+            content: "";
+            position: absolute;
+            top: 9px;
+            right: 3px;
+            width: 104px;
+            height: 0;
+            border-bottom:
+                2px solid red;
+            transform: rotate(173deg);
+        }
     }
 </style>
 @include("Booking::frontend.global.enquiry-form",['service_type'=>'hotel'])

@@ -51,7 +51,7 @@
                         @include ($service->booking_customer_info_file ?? 'Booking::frontend/booking/booking-customer-info')
 
                         <div class="text-right py-4 pr-4">
-                            <div class="d-flex align-items-center justify-content-end">
+                            <div class="d-flex align-items-center justify-content-end text-right">
                                 @if($booking->cancellation_time === null || (now()->gte($booking->cancellation_time) && now()->lte($booking->start_date)))
                                 <form action="{{ route('user.cancel_booking', $booking->code) }}" method="POST"
                                     onsubmit="return confirm('{{ __('Are you sure you want to cancel this booking?') }}');">

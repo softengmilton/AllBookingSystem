@@ -44,8 +44,8 @@
                 @endphp
                 <div class="tab-pane fade @if($number == 0) active show @endif" id="bravo_{{$service_type}}"
                     role="tabpanel" aria-labelledby="bravo_{{$service_type}}-tab">
-                    <div class="card border-0 tab-shadow">
-                        <div class="card-body">
+                    <div class="card pro border-0 tab-shadow">
+                        <div class="card-body pro">
                             @include(ucfirst($service_type).'::frontend.layouts.search.form-search')
                         </div>
                     </div>
@@ -101,7 +101,7 @@
         }
     }
 
-    .card.border-0.tab-shadow {
+    .card.pro.border-0.tab-shadow {
         border-radius: 20px !important;
     }
 
@@ -181,13 +181,13 @@
     }
 
     /* Responsive Card Body */
-    .card-body {
+    .card-body.pro {
         padding: 15px;
         height: 150px;
     }
 
     @media (max-width: 480px) {
-        .card-body {
+        .card-body.pro {
             min-height: 310px;
             padding: 10px;
         }
@@ -234,7 +234,7 @@
             font-size: 14px;
         }
 
-        .card-body {
+        .card-body.pro {
             min-height: 315px;
         }
     }

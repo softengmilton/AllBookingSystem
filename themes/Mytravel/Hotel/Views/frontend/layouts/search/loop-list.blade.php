@@ -82,7 +82,7 @@ $translation = $row->translate();
                 </div>
             </div>
             <div class="col col-xl-3 col-wd-3gdot5 align-self-center py-4 py-xl-0 border-top border-xl-top-0">
-                <div class="border-xl-left ml-4 ml-xl-0 pr-xl-3 pr-wd-5 text-xl-right justify-content-xl-end rtl-pr-0 rtl-pl-wd-5 rtl-border-xl-left-0 rtl-border-xl-right">
+                <div class="border-xl-left mx-4 mx-xl-0 pr-xl-3 pr-wd-5 text-xl-right justify-content-xl-end rtl-pr-0 rtl-pl-wd-5 rtl-border-xl-left-0 rtl-border-xl-right">
                     @if(setting_item('hotel_enable_review'))
                     @php $reviewData = $row->getScoreReview(); @endphp
                     <div class="mb-xl-5 mb-wd-7">
