@@ -991,13 +991,12 @@ class Hotel extends Bookable
 
     public function search($request)
     {
+        // Always start with base query
         $model_hotel = parent::query()->select("bravo_hotels.*");
-
-        if (!empty($location_name = $request['location_name'] ?? "")) {
-            $model_hotel->where('bravo_hotels.title', 'LIKE', '%' . $location_name . '%')->where("bravo_hotels.status", "publish");
-        }
         $model_hotel->where("bravo_hotels.status", "publish");
-        if (!empty($location_id = $request['location_id'] ?? "")) {
+
+        // Filter by location_id and join bravo_locations
+        if (!empty($location_id = $request['location_id'] ?? "") && is_numeric($location_id)) {
             $location = Location::query()->where('id', $location_id)->where("status", "publish")->first();
             if (!empty($location)) {
                 $model_hotel->join('bravo_locations', function ($join) use ($location) {
@@ -1007,6 +1006,12 @@ class Hotel extends Bookable
                 });
             }
         }
+
+        // Filter by hotel title matching location_name
+        if (!empty($location_name = $request['location_name'] ?? "") && !is_numeric($location_id)) {
+            $model_hotel->where('bravo_hotels.title', 'LIKE', '%' . $location_name . '%');
+        }
+
 
 
 
