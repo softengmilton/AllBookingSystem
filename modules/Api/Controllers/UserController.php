@@ -120,6 +120,8 @@ class UserController extends Controller
         $booking->status = 'cancelled';
         // $booking->delete();
 
+      ;
+
         return redirect()->route('user.booking_history')->with('success', __('Booking deleted successfully.'));
     }
 }

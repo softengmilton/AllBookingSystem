@@ -236,27 +236,49 @@ class UserController extends FrontendController
         }
         return back()->with('error', __('Error. You can\'t permanently delete'));
     }
+    // public function cancelBooking($code)
+    // {
+    //     // Find the booking
+    //     $booking = Booking::where('code', $code)->first();
+
+    //     if (!$booking) {
+    //         return redirect()->back()->with('error', __('Booking not found.'));
+    //     }
+
+    //     try {
+    //         // Check if soft deletes are enabled
+    //         // if (in_array('Illuminate\Database\Eloquent\SoftDeletes', class_uses($booking))) {
+    //         //     $booking->forceDelete(); // Force delete if soft deletes are enabled
+    //         // } else {
+    //         $booking->delete();
+    //         // }
+
+    //         return redirect('/')->with('success', __('Booking deleted successfully.'));
+    //     } catch (\Exception $e) {
+    //         Log::error('Error deleting booking: ' . $e->getMessage());
+    //         return redirect()->back()->with('error', __('Error deleting booking.'));
+    //     }
+    // }
     public function cancelBooking($code)
     {
-        // Find the booking
-        $booking = Booking::where('code', $code)->first();
+        // Ensure the user is logged in
+        if (!auth()->check()) {
+            return redirect()->route('login')->with('error', __('Please log in first.'));
+        }
+
+        // Find the booking and ensure the logged-in user owns it
+        $booking = Booking::where('code', $code)
+            ->where('customer_id', auth()->id()) // Prevents unauthorized deletion
+            ->first();
 
         if (!$booking) {
             return redirect()->back()->with('error', __('Booking not found.'));
         }
 
-        try {
-            // Check if soft deletes are enabled
-            // if (in_array('Illuminate\Database\Eloquent\SoftDeletes', class_uses($booking))) {
-            //     $booking->forceDelete(); // Force delete if soft deletes are enabled
-            // } else {
-            $booking->delete();
-            // }
+        // change the status of the booking to "cancelled"
+        $booking->status = 'cancelled';
+        $booking->save(); // This line was missing - it saves the changes to the database
 
-            return redirect('/')->with('success', __('Booking deleted successfully.'));
-        } catch (\Exception $e) {
-            Log::error('Error deleting booking: ' . $e->getMessage());
-            return redirect()->back()->with('error', __('Error deleting booking.'));
-        }
+        return redirect()->route('user.booking_history')->with('success', __('Booking cancelled successfully.'));
     }
 }

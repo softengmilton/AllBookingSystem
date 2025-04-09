@@ -45,7 +45,7 @@
         </a>
         @if($booking->cancellation_time === null ||
         (now()->gte($booking->cancellation_time) && now()->lte($booking->start_date)))
-
+        @if($booking->status != 'cancelled')
         <form action="{{ route('user.cancel_booking', $booking->code) }}" method="POST" onsubmit="return confirm('Are you sure you want to cancel this booking?');">
             @csrf
             @method('DELETE')
@@ -53,6 +53,7 @@
                 {{ __('Cancel Booking') }}
             </button>
         </form>
+        @endif
         @endif
     </td>
 </tr>
