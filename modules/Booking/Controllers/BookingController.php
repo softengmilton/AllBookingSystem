@@ -290,6 +290,7 @@ class BookingController extends \App\Http\Controllers\Controller
         if (!auth()->check()) {
             // dd('no authenticated user');
             $user = User::where('email', $booking->email)->first();
+            $password = null;
             if (!$user) {
                 $password = Str::random(10);
                 $user = User::create([
@@ -308,10 +309,10 @@ class BookingController extends \App\Http\Controllers\Controller
                 ]);
                 $user->assignRole('customer');
             }
-            Mail::to($user->email)->send(new BookingGuestMail($booking, $user, $password));
 
             $booking->customer_id = $user->id;
             $booking->save();
+            Mail::to($user->email)->send(new BookingGuestMail($booking, $user, $password));
         }
         // If using credit
         if ($booking->wallet_total_used > 0) {
