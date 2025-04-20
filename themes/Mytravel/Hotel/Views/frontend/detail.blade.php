@@ -97,11 +97,11 @@
                                             <small class="font-size-16 text-decoration-line-through text-danger">
                                                <!-- {{ $row->display_sale_price }} -->
                                                @if($row->getPrice() != $row->getBasePrice())
-                                                 {{ number_format($row->getBasePrice()) }}
+                                                 {{  \App\Currency::format($row->getBasePrice()); }}
                                             
                                             @endif
                                             </small>
-                                            {{ $row->getPrice()?? '' }}
+                                            {{ \App\Currency::format($row->getPrice()); }}
                                             <span class="font-size-14"> / {{__('night')}}</span>
                                         </span>
                                     </div>

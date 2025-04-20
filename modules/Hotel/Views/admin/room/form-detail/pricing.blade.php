@@ -3,7 +3,7 @@
     <div class="col-md-6">
         <div class="form-group">
             <label>{{__("Price")}} <span class="text-danger">*</span></label>
-            <input type="number" required value="{{$row->price}}" min="1" placeholder="{{__("Price")}}" name="price" id="price" class="form-control">
+            <input type="number" step="0.01" value="{{$row->price}}" min="1" placeholder="{{__("Price")}}" name="price" id="price" class="form-control">
         </div>
     </div>
     <div class="col-md-6">
@@ -21,7 +21,7 @@
             <label>{{__("Discount Type")}} <span class="text-danger">*</span></label>
             <select name="tax_type" id="tax_type" class="form-control" onchange="toggleDiscountInput()">
                 <option value="">Select</option>
-                <option value="fixed">Fixed</option>
+                <!-- <option value="fixed">Fixed</option> -->
                 <option value="percentage">Percentage</option>
             </select>
         </div>
@@ -30,7 +30,7 @@
         <div class="form-group">
             <label id="discount_label"></label>
             <div class="input-group mb-3">
-                <input type="number" name="tax" id="tax" class="form-control" placeholder="Enter discount value">
+                <input type="number" step="0.01" name="tax" id="tax" class="form-control" placeholder="Enter discount value">
                 <div class="input-group-append">
                     <button class="btn btn-primary" type="button" onclick="updatePrice()">Apply Discount</button>
                 </div>

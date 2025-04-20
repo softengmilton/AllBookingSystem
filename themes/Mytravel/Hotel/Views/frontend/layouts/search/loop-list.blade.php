@@ -104,12 +104,25 @@ $translation = $row->translate();
                     <div class="mb-0 pt-1 pb-2">
                         <span class="font-size-14 text-gray-1 d-block">{{ __("Starts from") }}</span>
                         @if($row->getPrice() != $row->getBasePrice())
+
+                        @php
+                        $Baseprice = $row->getBasePrice();
+
+                        $formattedBasePrice = \App\Currency::format($Baseprice); // 
+
+                        @endphp
                         <div class="line-box">
-                            <span class="font-weight-bold line-through text-danger line font-size-16">BDT {{ number_format($row->getBasePrice()) }}</span>
+                            <span class="font-weight-bold line-through text-danger line font-size-16"> {{ $formattedBasePrice }}</span>
                         </div>
                         @endif
-                        <div class="font-weight-bold text-dark font-size-24">BDT {{ number_format($row->getPrice()) }}
-                            <span class="font-size-14 text-gray-1"> / {{__('night')}}</span>
+                        @php
+                        $price = $row->getPrice();
+
+                        $formattedPrice = \App\Currency::format($price); // 
+
+                        @endphp
+                        <div class="font-weight-bold text-dark font-size-24"> {{$formattedPrice}}
+                            <span class="font-size-14 text-gray-1"> / {{__('night')}}</span> 
                         </div>
                         <!-- <span class="font-size-14 text-gray-1"> / {{__('night')}}</span> -->
                         <a @if(!empty($blank)) target="_blank" @endif href="{{$row->getDetailUrl()}}" class="d-block">

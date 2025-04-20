@@ -63,34 +63,16 @@ $translation = $row->translate();
         @endif
         <div class="mb-0">
             <span class="mr-1 font-size-14 text-gray-1">{{__("From")}}</span>
-            <!-- <span class="font-weight-bold">{{ $row->display_price }}</span> -->
             @if($row->getPrice() != $row->getBasePrice())
-            <div class="line-box">
-                <span class="font-weight-bold line-through text-gray-1 font-size-14 line">{{ $row->getBasePrice() ?? '' }}</span>
-            </div>
-
+            <span class="font-weight-bold text-gray-1 font-size-14 position-relative d-inline-block mr-1">
+                <span class="position-relative">{{ \App\Currency::format($row->getBasePrice()) }}</span>
+                <span class="position-absolute left-0 start-0 w-100" style="height:1px; top:60%; background-color:rgb(213, 32, 32); transform:translateY(-50%) rotate(-12deg);"></span>
+            </span>
             @endif
-            <span class="font-weight-bold">{{ $row->getPrice() ?? '' }}</span>
+            <span class="font-weight-bold">{{ \App\Currency::format($row->getPrice()) }}</span>
             <span class="font-size-14 text-gray-1">{{__("/night")}}</span>
         </div>
     </div>
 </div>
 
-<style>
-    .line-box {
-        position: relative;
-        display: inline;
-    }
-
-    .line::after {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 0;
-        width: 100%;
-        height: 1px;
-        background-color: rgb(213, 32, 32);
-        transform: translateY(-50%);
-        rotate: -12deg;
-    }
-</style>
+</div>
