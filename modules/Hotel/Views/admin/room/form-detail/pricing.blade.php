@@ -18,19 +18,9 @@
 <div class="row">
     <div class="col-md-6">
         <div class="form-group">
-            <label>{{__("Discount Type")}} <span class="text-danger">*</span></label>
-            <select name="tax_type" id="tax_type" class="form-control" onchange="toggleDiscountInput()">
-                <option value="">Select</option>
-                <!-- <option value="fixed">Fixed</option> -->
-                <option value="percentage">Percentage</option>
-            </select>
-        </div>
-    </div>
-    <div class="col-md-6" id="discount_input_container" style="display: none;">
-        <div class="form-group">
-            <label id="discount_label"></label>
+            <label>{{__("Percentage Discount")}}</label>
             <div class="input-group mb-3">
-                <input type="number" step="0.01" name="tax" id="tax" class="form-control" placeholder="Enter discount value">
+                <input type="number" step="0.01" name="tax" id="tax" value="{{$row->tax ?? 0}}" class="form-control" placeholder="Enter percentage">
                 <div class="input-group-append">
                     <button class="btn btn-primary" type="button" onclick="updatePrice()">Apply Discount</button>
                 </div>
@@ -88,40 +78,14 @@
 @endif
 
 <script>
-    function toggleDiscountInput() {
-        const discountType = document.getElementById('tax_type').value;
-        const discountInputContainer = document.getElementById('discount_input_container');
-        const discountLabel = document.getElementById('discount_label');
-        const discountValueInput = document.getElementById('tax');
-
-        if (discountType === 'fixed' || discountType === 'percentage') {
-            discountInputContainer.style.display = 'block';
-            discountLabel.innerText = discountType === 'fixed' ? 'Fixed Discount' : 'Percentage Discount';
-            discountValueInput.placeholder = discountType === 'fixed' ? 'Enter fixed amount' : 'Enter percentage';
-        } else {
-            discountInputContainer.style.display = 'none';
-        }
-    }
-
     function updatePrice() {
         const priceInput = document.getElementById('price');
-        const discountType = document.getElementById('tax_type').value;
         const discountValue = parseFloat(document.getElementById('tax').value);
         const originalPrice = parseFloat(priceInput.value);
 
         if (!isNaN(discountValue) && !isNaN(originalPrice)) {
-            let newPrice;
-
-            if (discountType === 'fixed') {
-                // Subtract fixed discount from the original price
-                newPrice = originalPrice - discountValue;
-            } else if (discountType === 'percentage') {
-                // Calculate percentage discount
-                newPrice = originalPrice - (originalPrice * (discountValue / 100));
-            } else {
-                // No discount selected, keep the original price
-                newPrice = originalPrice;
-            }
+            // Calculate percentage discount
+            newPrice = originalPrice - (originalPrice * (discountValue / 100));
 
             // Ensure the price doesn't go below 0
             if (newPrice < 0) {
@@ -131,7 +95,7 @@
             // Update the price input with the new calculated price
             priceInput.value = newPrice.toFixed(2); // Round to 2 decimal places
         } else {
-            alert('Please enter valid discount value and original price.');
+            alert('Please enter valid discount percentage and original price.');
         }
     }
 </script>
