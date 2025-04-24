@@ -151,8 +151,13 @@
                                 </div>
                             </div>
                             <div class="col-md-3" v-if="room.number">
+                                <div class="text-center discount-price-box" v-if="room.discount_price !== room.base_price">
+                                    <span class="font-size-14  d-block bg-danger py-1 px-2 rounded-xs text-center" style="color: white;">@{{room.discount}}%</span>
+                                </div>
                                 <div class="col-price clear">
                                     <div class="text-center discount-price-box" v-if="room.discount_price !== room.base_price">
+                                        <!-- //discount percentage  -->
+
                                         <span class="discount-price" v-html="room.discount_price_html"></span>
                                     </div>
                                     <div class="text-center">
