@@ -1227,9 +1227,22 @@ class Hotel extends Bookable
 
     public function getPrice()
     {
-        //get lowest room price of the hotel
-        $price = $this->rooms()->where('status', 'publish')->min('price');
-        return $price;
+        $room = $this->rooms()
+            ->where('status', 'publish')
+            ->orderBy('price', 'asc')
+            ->first();
+        $data = [
+            'price' => $room ? $room->price : 0,
+            'discount' => $room ? $room->tax : 0,
+        ];
+        return $data;
+    }
+    public function getMinPrice()
+    {
+        $minPrice = $this->rooms()
+            ->where('status', 'publish')
+            ->min('price');
+        return $minPrice;
     }
 
     public function getBasePrice()

@@ -101,7 +101,12 @@
                                             
                                             @endif
                                             </small>
-                                            {{ \App\Currency::format($row->getPrice()); }}
+                                            @php
+                                                $priceData = $row->getPrice();
+                                                $formattedPrice = \App\Currency::format($priceData['price']);
+                                                @endphp
+                                            
+                                            {{ $formattedPrice }}
                                             <span class="font-size-14"> / {{__('night')}}</span>
                                         </span>
                                     </div>

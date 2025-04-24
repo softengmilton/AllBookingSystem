@@ -82,10 +82,17 @@ $translation = $row->translate();
                 </div>
             </div>
             <div class="col col-xl-3 col-wd-3gdot5 align-self-center py-4 py-xl-0 border-top border-xl-top-0">
+                @php
+                $priceData = $row->getPrice();
+                $formattedPrice = \App\Currency::format($priceData['price']);
+                @endphp
+                @if($priceData['discount'] != null)
+                <span class="font-size-14  d-block bg-danger py-1 px-2 rounded-xs text-center mb-2" style="color: white;">{{$priceData['discount']}}% off</span>
+                @endif
                 <div class="border-xl-left mx-4 mx-xl-0 pr-xl-3 pr-wd-5 text-xl-right justify-content-xl-end rtl-pr-0 rtl-pl-wd-5 rtl-border-xl-left-0 rtl-border-xl-right">
                     @if(setting_item('hotel_enable_review'))
                     @php $reviewData = $row->getScoreReview(); @endphp
-                    <div class="mb-xl-5 mb-wd-7">
+                    <div class="mb-xl-5 mb-wd-2">
                         <div class="mb-0">
                             <div class="my-xl-1">
                                 <div class="d-flex align-items-center justify-content-xl-end mb-2">
@@ -108,21 +115,18 @@ $translation = $row->translate();
                         @php
                         $Baseprice = $row->getBasePrice();
 
-                        $formattedBasePrice = \App\Currency::format($Baseprice); // 
+                        $formattedBasePrice = \App\Currency::format($Baseprice); //
 
                         @endphp
                         <div class="line-box">
                             <span class="font-weight-bold line-through text-danger line font-size-16"> {{ $formattedBasePrice }}</span>
                         </div>
                         @endif
-                        @php
-                        $price = $row->getPrice();
 
-                        $formattedPrice = \App\Currency::format($price); // 
+                        <!-- // discount percentage -->
 
-                        @endphp
                         <div class="font-weight-bold text-dark font-size-24"> {{$formattedPrice}}
-                            <span class="font-size-14 text-gray-1"> / {{__('night')}}</span> 
+                            <span class="font-size-14 text-gray-1"> / {{__('night')}}</span>
                         </div>
                         <!-- <span class="font-size-14 text-gray-1"> / {{__('night')}}</span> -->
                         <a @if(!empty($blank)) target="_blank" @endif href="{{$row->getDetailUrl()}}" class="d-block">
