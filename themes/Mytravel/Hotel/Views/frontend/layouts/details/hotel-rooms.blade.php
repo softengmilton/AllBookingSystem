@@ -151,6 +151,30 @@
                                 </div>
                             </div>
                             <div class="col-md-3" v-if="room.number">
+                                <div class="service-fees mt-2" v-if="room.service_fee && room.service_fee.length">
+                                    <div class="text-center small text-muted mb-1"></div>
+                                    <div v-for="fee in room.service_fee" class="small text-center">
+                                        <!-- Fee Name -->
+                                        @{{ fee.name }}:
+
+                                        <!-- Fixed Fee -->
+                                        <span v-if="fee.unit === 'fixed'">
+                                            @{{ formatMoney(fee.price * room.tmp_nights) }}
+                                            <span v-if="room.tmp_nights > 1">(×@{{ room.tmp_nights }} nights)</span>
+                                        </span>
+
+                                        <!-- Percentage Fee -->
+                                        <span v-else-if="fee.unit === 'percent'">
+                                            @{{ formatMoney((fee.price / 100) * room.base_price * room.tmp_nights) }}
+                                            (@{{ fee.price }}% of @{{ formatMoney(room.base_price * room.tmp_nights) }})
+                                        </span>
+
+                                        <!-- Unknown Unit (Fallback) -->
+                                        <span v-else>
+                                            @{{ formatMoney(fee.price) }} (@{{ fee.unit }})
+                                        </span>
+                                    </div>
+                                </div>
                                 <div class="text-center discount-price-box" v-if="room.discount_price !== room.base_price">
                                     <span class="font-size-14  d-block bg-danger py-1 px-2 rounded-xs text-center" style="color: white;">@{{room.discount}}%</span>
                                 </div>

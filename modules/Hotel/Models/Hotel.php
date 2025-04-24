@@ -864,12 +864,26 @@ class Hotel extends Bookable
 
                 $mainPrice = $basePrice;
                 $mainPrice *= $nights;
+
+                $service_fee = [];
+                if (!empty($this->service_fee)) {
+                    // If it's already an array, use it directly
+                    if (is_array($this->service_fee)) {
+                        $service_fee = $this->service_fee;
+                    }
+                    // If it's a JSON string, decode it
+                    elseif (is_string($this->service_fee)) {
+                        $decoded_fee = json_decode($this->service_fee, true);
+                        $service_fee = (json_last_error() === JSON_ERROR_NONE) ? $decoded_fee : [];
+                    }
+                }
                 // $discountedPrice *= $nights;
                 $res[] = [
                     'id'              => $room->id,
                     'title'           => $translation->title,
                     'price'                 => $room->tmp_price ?? 0,  // Raw price value
                     'base_price'            => $room->price, // Base price
+                    'discount'             => $room->tax ?? 0, // Discount value
                     'discount_price'        => $basePrice, // Discounted price
                     'size_html'       => $room->size ? size_unit_format($room->size) : '',
                     'beds_html'       => $room->beds ? 'x' . $room->beds : '',
@@ -885,7 +899,9 @@ class Hotel extends Bookable
                     'price_text'      => format_money($room->tmp_price) . '/' . ($room->tmp_nights ? __(':count nights', ['count' => $room->tmp_nights]) : __(":count night", ['count' => $room->tmp_nights])),
                     'discount_price_html' => format_money($mainPrice) . '<span class="unit">/' . ($room->tmp_nights ? __(':count nights', ['count' => $room->tmp_nights]) : __(":count night", ['count' => $room->tmp_nights])) . '</span>',
                     'terms'           => $terms,
-                    'term_features'   => $term_features
+                    'term_features'   => $term_features,
+                    'service_fee'     => $service_fee,
+                    'tmp_nights'      => $room->tmp_nights
                 ];
                 $this->tmp_rooms[] = $room;
             }
