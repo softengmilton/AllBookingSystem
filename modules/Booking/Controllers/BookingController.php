@@ -308,7 +308,7 @@ class BookingController extends \App\Http\Controllers\Controller
                     "need_update_pw" => !is_demo_mode() ? 1 : 0
                 ]);
                 $user->assignRole('customer');
-            }
+            } 
 
             $booking->customer_id = $user->id;
             $booking->save();

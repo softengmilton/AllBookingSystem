@@ -34,7 +34,7 @@ class BookingGuestMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Booking Guest Mail',
+            subject: "Thanks - You've Succefully Signed Up at " . config('app.name'),
         );
     }
 
