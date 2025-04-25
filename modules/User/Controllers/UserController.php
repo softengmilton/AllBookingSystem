@@ -25,6 +25,7 @@ use Modules\Booking\Models\Booking;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Modules\Booking\Models\Enquiry;
 use Illuminate\Support\Str;
+use Modules\Booking\Events\BookingUpdatedEvent;
 
 class UserController extends FrontendController
 {
@@ -275,10 +276,12 @@ class UserController extends FrontendController
             return redirect()->back()->with('error', __('Booking not found.'));
         }
 
-        // change the status of the booking to "cancelled"
-        $booking->status = 'cancelled';
-        $booking->save(); // This line was missing - it saves the changes to the database
+        $booking->status = Booking::CANCELLED;
+        $booking->save();
 
+        $booking->tryRefundToWallet(); // Handle refund consistently
+
+        event(new BookingUpdatedEvent($booking));
         return redirect()->route('user.booking_history')->with('success', __('Booking cancelled successfully.'));
     }
 }
