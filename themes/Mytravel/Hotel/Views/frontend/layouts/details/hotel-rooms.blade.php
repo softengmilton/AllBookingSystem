@@ -151,40 +151,38 @@
                                 </div>
                             </div>
                             <div class="col-md-3" v-if="room.number">
-                                <div class="service-fees mt-2" v-if="room.service_fee && room.service_fee.length">
-                                    <div class="text-center small text-muted mb-1"></div>
-                                    <div v-for="fee in room.service_fee" class="small text-center">
-                                        <!-- Fee Name -->
-                                        @{{ fee.name }}:
 
-                                        <!-- Fixed Fee -->
-                                        <span v-if="fee.unit === 'fixed'">
-                                            @{{ formatMoney(fee.price * room.tmp_nights) }}
-                                            <span v-if="room.tmp_nights > 1">(×@{{ room.tmp_nights }} nights)</span>
-                                        </span>
-
-                                        <!-- Percentage Fee -->
-                                        <span v-else-if="fee.unit === 'percent'">
-                                            @{{ formatMoney((fee.price / 100) * room.base_price * room.tmp_nights) }}
-                                            (@{{ fee.price }}% of @{{ formatMoney(room.base_price * room.tmp_nights) }})
-                                        </span>
-
-                                        <!-- Unknown Unit (Fallback) -->
-                                        <span v-else>
-                                            @{{ formatMoney(fee.price) }} (@{{ fee.unit }})
-                                        </span>
-                                    </div>
-                                </div>
                                 <div class="text-center discount-price-box" v-if="room.discount_price !== room.base_price">
                                     <span class="font-size-14  d-block bg-danger py-1 px-2 rounded-xs text-center" style="color: white;">@{{room.discount}}%</span>
                                 </div>
                                 <div class="col-price clear">
+                                    <div class="service-fees mb-2" v-if="room.service_fee && room.service_fee.length">
+                                        <div class="text-center small text-muted mb-1"></div>
+                                        <div v-for="fee in room.service_fee" class="small text-center">
+                                            <!-- Fee Name -->
+                                            <!-- Fixed Fee -->
+                                            <span v-if="fee.unit === 'fixed'">
+                                                +@{{ formatMoney(fee.price * room.tmp_nights) }} @{{ fee.name }} for
+                                                <span v-if="room.tmp_nights > 1">@{{ room.tmp_nights }} nights</span>
+                                            </span>
+
+                                            <!-- Percentage Fee -->
+                                            <span v-else-if="fee.unit === 'percent'">
+                                                + @{{ formatMoney((fee.price / 100) * room.base_price * room.tmp_nights) }} @{{ fee.name }} for
+                                                @{{ room.tmp_nights }} nights
+                                            </span>
+
+                                            <!-- Unknown Unit (Fallback) -->
+                                            <span v-else>
+                                                +@{{ formatMoney(fee.price) }} @{{ fee.name }} (@{{ fee.unit }})
+                                            </span>
+                                        </div>
+                                    </div>
                                     <div class="text-center discount-price-box" v-if="room.discount_price !== room.base_price">
                                         <!-- //discount percentage  -->
-
                                         <span class="discount-price" v-html="room.discount_price_html"></span>
                                     </div>
-                                    <div class="text-center">
+                                    <div class="text-center pt-2">
                                         <span class="price" v-html="room.price_html"></span>
                                     </div>
                                     <select v-if="room.number" v-model="room.number_selected" class="custom-select">
@@ -314,15 +312,16 @@
     /* // mobile  */
     @media (max-width: 767px) {
         .clear {
-            text-align: right ! important;
+            text-align: left ! important;
         }
 
         .discount-price-box .discount-price {
             position: absolute;
-            top: -35px;
-            right: -120px;
+            top: -16px;
+            right: -145px;
             color: red;
             font-weight: bold;
+            font-size: 13px;
         }
 
         .discount-price-box .discount-price::after {
