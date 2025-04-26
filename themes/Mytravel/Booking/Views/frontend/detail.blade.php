@@ -53,6 +53,7 @@
                         <div class="text-right py-4 pr-4">
                             <div class="d-flex align-items-center justify-content-end text-right">
                                 @if($booking->cancellation_time === null || now()->lte($booking->cancellation_time))
+                                @if($booking->object_model == 'hotel')
                                 <form action="{{ route('user.cancel_booking', $booking->code) }}" method="POST"
                                     onsubmit="return confirm('{{ __('Are you sure you want to cancel this booking?') }}');">
                                     @csrf
@@ -61,6 +62,7 @@
                                         {{ __('Cancel Booking') }}
                                     </button>
                                 </form>
+                                @endif
                                 @endif
                             </div>
 

@@ -43,7 +43,8 @@
         <a href="{{route('user.booking.invoice',['code'=>$booking->code])}}" class="btn btn-xs btn-primary btn-info-booking open-new-window mt-1" onclick="window.open(this.href); return false;">
             <i class="fa fa-print"></i>{{__("Invoice")}}
         </a>
-        @if($booking->cancellation_time === null || now()->lte($booking->cancellation_time))
+        @if($booking->cancellation_time === null || now()->lte($booking->cancellation_time ))
+        @if($booking->object_model == 'hotel')
         <form action="{{ route('user.cancel_booking', $booking->code) }}" method="POST" onsubmit="return confirm('Are you sure you want to cancel this booking?');">
             @csrf
             @method('DELETE')
@@ -51,6 +52,7 @@
                 {{ __('Cancel Booking') }}
             </button>
         </form>
+        @endif
         @endif
         @endif
     </td>
