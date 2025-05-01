@@ -18,7 +18,7 @@
 <div class="row">
     <input name="tax_type" id="tax_type" value="percentage" class="form-control" hidden>
 
-    <div class="col-md-6">
+    <div class="col-md-12">
         <div class="form-group">
             <label>{{__("Percentage Discount")}}</label>
             <div class="input-group mb-3">

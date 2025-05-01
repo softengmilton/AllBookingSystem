@@ -285,6 +285,7 @@
     .discount-price-box {
         position: relative;
         margin-bottom: 20px;
+        white-space: nowrap;
     }
 
     .discount-price-box .discount-price {
@@ -319,7 +320,7 @@
         .discount-price-box .discount-price {
             position: absolute;
             top: -16px;
-            right: -145px;
+            right: -167px;
             color: red;
             font-weight: bold;
             font-size: 13px;

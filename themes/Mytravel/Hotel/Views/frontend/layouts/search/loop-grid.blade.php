@@ -88,7 +88,7 @@ $translation = $row->translate();
             <!-- <span class="font-weight-bold">{{ $row->display_price }}</span> -->
             @if($row->getPrice()['price'] != $row->getBasePrice())
             <div class="line-box">
-                <span class="font-weight-bold line-through text-gray-1 font-size-14 line">{{ $row->getBasePrice() ?? '' }}</span>
+                <span class="font-weight-bold line-through text-gray-1 font-size-14 line">{{ \App\Currency::format($row->getBasePrice() ?? '') }}</span>
             </div>
 
             @endif
